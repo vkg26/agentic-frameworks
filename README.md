@@ -2,128 +2,121 @@
 
 ## Overview
 
-This repository is dedicated to exploring various agentic frameworks, starting with [Microsoft Autogen](https://github.com/microsoft/autogen). The primary intent behind this repo is to experiment with different frameworks, understand their capabilities, and compare their efficiency in various scenarios. This is an ongoing effort where I will be testing and documenting my findings over time.
+This repository explores modern agentic frameworks with a focus on [Autogen AgentChat](https://microsoft.github.io/autogen/), the OpenAI Agents SDK, and OpenAI's Swarm toolkit. After the recent refactor the examples have been reorganized into self-contained demos that make it easier to compare frameworks, reuse components, and experiment with different coordination patterns.
 
-Additionally, this repository includes:
-
-- **Agents SDK:** A collection of reusable agent components and utilities.
-- **Swarm Module:** A multi-agent coordination system for handling complex workflows.
-
-If you're interested in collaborating, feel free to reach out!
+Each demo highlights a specific capability—tool use, human-in-the-loop handoffs, routing, or Azure-hosted agents—so you can quickly try ideas and extend them for your own projects.
 
 ## Installation
 
-To set up the environment and get started with Autogen and Agents SDK, follow these steps:
-
 ### Prerequisites
 
-Ensure you have Python 3.10+ installed on your system. You can check your Python version using:
+* Python 3.10 or newer
+* An OpenAI or Azure OpenAI API key depending on the demo you plan to run
+
+Verify your Python version with:
 
 ```sh
 python --version
 ```
 
-### Setting Up the Environment
+### Set up the project
 
-1. **Clone the Repository:**
+1. **Clone the repository**
 
    ```sh
    git clone https://github.com/YOUR_GITHUB_USERNAME/agentic-frameworks.git
    cd agentic-frameworks
    ```
 
-2. **Create a Virtual Environment (Recommended):**
+2. **(Optional) Create a virtual environment**
 
    ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
    ```
 
-3. **Install Dependencies:**
+3. **Install dependencies**
+
+   The refreshed `requirements.txt` consolidates everything required for the demos, including Autogen AgentChat, Autogen extensions, Azure connectors, and supporting utilities.
 
    ```sh
    pip install -r requirements.txt
    ```
 
-4. **Install Autogen:**
+### Configure credentials
 
-   ```sh
-   pip install -U "autogen-agentchat" "autogen-ext[openai]"
-   ```
+Create a `.env` file in the repository root so the demos can load credentials via `python-dotenv`:
 
-   and Autogen Studio:
+```dotenv
+OPENAI_API_KEY=your_openai_key
 
-   ```sh
-   pip install -U "autogenstudio"
-   ```
+# Azure-specific demos (swarm_agents_demo.py, sample_azure_client.py)
+API_KEY=your_azure_openai_key
+DEPLOYMENT_NAME=your_deployment
+MODEL=gpt-4o
+ENDPOINT=https://your-resource.openai.azure.com/
+API_VERSION=2024-06-01
+```
 
-5. **Install Agents SDK:**
-
-   ```sh
-   pip install openai-agents
-   ```
-
-6. **Set OpenAI API Key for Agents SDK:**
-
-   In order to use the Agents SDK, you need to set your OpenAI API key:
-
-   ```python
-   from agents import set_default_openai_key
-
-   set_default_openai_key("sk-...")
-   ```
-
-7. **Set Up Environment Variables:**
-   Create a `.env` file in the root directory and add your OpenAI API key or Azure API details:
-
-   ```sh
-   OPENAI_API_KEY=your_api_key_here
-   ```
-
-   If using Azure OpenAI:
-
-   ```sh
-   AZURE_OPENAI_API_KEY=your_api_key_here
-   AZURE_OPENAI_ENDPOINT=your_endpoint_here
-   ```
+Only the variables relevant to the demos you want to run are required. Refer to the source code for any additional environment flags.
 
 ## Directory Structure
 
 ```
 agentic-frameworks/
-│── src/
+├── src/
 │   ├── agents_sdk/
-│   │   ├── sample.py
-│   ├── autogen/
-│   │   ├── custom_agents/
-│   │   │   ├── magentic_one.py
-│   │   │   ├── sample.py
-│   │   │   ├── sample_azure_client.py
-│   │   ├── swarm/
-│   │   │   ├── handoff.py
-│   │   │   ├── routine.py
-│   │   │   ├── sample.py
-│── .env
-│── .gitignore
-│── LICENSE
-│── README.md
-│── requirements.txt
+│   │   └── sample.py
+│   ├── swarm/
+│   │   ├── handoff.py
+│   │   ├── routine.py
+│   │   └── sample.py
+│   ├── agent_as_tool_demo.py
+│   ├── arithmetic_agent.py
+│   ├── model_context_demo.py
+│   ├── parallel_tools_demo.py
+│   ├── reasoning_model_selector_demo.py
+│   ├── round_robin_team_with_user_proxy_agent.py
+│   ├── selector_group_chat_demo.py
+│   ├── sample.py
+│   ├── sample_azure_client.py
+│   └── swarm_agents_demo.py
+├── AGENTS.md
+├── LICENSE
+├── README.md
+└── requirements.txt
 ```
+
+## Running the demos
+
+Each script is self-contained—activate your environment, export the required keys, and run whichever example you want to explore.
+
+```sh
+python src/sample.py                            # Lazy assistant that hands off to the user
+python src/agent_as_tool_demo.py                # Showcases agents acting as tools inside Autogen
+python src/parallel_tools_demo.py               # Demonstrates coordinated parallel tool execution
+python src/reasoning_model_selector_demo.py     # Routes tasks to different reasoning models
+python src/swarm_agents_demo.py                 # Azure Swarm demo with rich handoffs and tools
+python src/agents_sdk/sample.py                 # OpenAI Agents SDK example
+python src/swarm/sample.py                      # Minimal Swarm workflow
+```
+
+Feel free to inspect other scripts in `src/` for additional scenarios such as selector group chats, Azure-hosted clients, and arithmetic-focused agents. When modifying or extending a demo, run it directly to confirm behaviour and iterate quickly.
 
 ## Current Progress
 
-- ✅ Initial setup with Autogen
-- ✅ Implemented a few sample agent scripts
-- ✅ Added `agents_sdk` and `swarm` modules
-- 🔄 Developing more agent functionalities
-- 🔄 Exploring more frameworks and refining comparisons
+- ✅ Refactored the codebase into modular Autogen, Agents SDK, and Swarm demos
+- ✅ Added richer tool-enabled scenarios, including Azure-hosted Swarm interactions
+- ✅ Centralized dependencies (Autogen AgentChat, `autogen-ext`, Azure SDKs, etc.) in `requirements.txt`
+- 🔄 Expanding coverage of decision-making and routing patterns
+- 🔄 Documenting comparative learnings across frameworks
 
 ## Future Work
 
-- Expand the `swarm` module to include multi-agent coordination
-- Develop benchmarking tests for evaluating framework performance
-- Integrate additional agentic frameworks for comparison
-- Document findings and best practices
+- Add benchmarking utilities to compare response quality, latency, and cost across frameworks
+- Grow the library of multi-agent coordination templates (escalations, fallbacks, guardrails)
+- Capture troubleshooting notes for Azure/OpenAI deployments and streaming UIs
+- Publish write-ups summarizing lessons learned from each experiment
 
 ## Contributing
 
