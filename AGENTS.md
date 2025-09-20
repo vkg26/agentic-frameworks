@@ -4,18 +4,18 @@ This file contains instructions for assistants working with this repository. Fol
 
 ## Repository Overview
 
-`src/` contains example code demonstrating different agentic frameworks:
+The repository has been reorganized into standalone demos for each framework. Everything lives under `src/`:
 
-- **agents_sdk/** – Simple examples using the [openai-agents](https://pypi.org/project/openai-agents/) SDK.
-- **autogen/** – Experiments built on Microsoft Autogen. Custom agents live in `autogen/custom_agents/`.
-- **swarm/** – Experiments with OpenAI's "swarm" multi-agent package.
+- **Autogen AgentChat demos** – Self-contained scripts such as `agent_as_tool_demo.py`, `parallel_tools_demo.py`, `selector_group_chat_demo.py`, and `swarm_agents_demo.py` showcase tool use, routing, and Azure-hosted flows.
+- **agents_sdk/** – Examples using the [openai-agents](https://pypi.org/project/openai-agents/) SDK.
+- **swarm/** – Experiments with OpenAI's Swarm package, including human-in-the-loop handoffs and routines.
 
-The repository does not include automated tests. Sample scripts serve as runnable examples.
+The repo does not include automated tests. Sample scripts serve as runnable examples and as references for building new experiments.
 
 ## Setup Instructions
 
 1. Use **Python 3.10+**.
-2. Install dependencies:
+2. Install dependencies (Autogen AgentChat, `autogen-ext`, Azure SDKs, dotenv, etc.) using the refreshed requirements file:
    ```sh
    pip install -r requirements.txt
    ```
@@ -23,24 +23,29 @@ The repository does not include automated tests. Sample scripts serve as runnabl
    ```sh
    OPENAI_API_KEY=your_key_here
    ```
-   If you use Azure OpenAI, also set `API_KEY`, `DEPLOYMENT_NAME`, `ENDPOINT` and `MODEL`.
+   Azure demos additionally require `API_KEY`, `DEPLOYMENT_NAME`, `ENDPOINT`, `MODEL`, and `API_VERSION`.
 
 ## Running Examples
 
-After installation you can run any of the sample scripts. For instance:
+After installation you can run any of the sample scripts. Common entry points include:
+
 ```sh
-python src/agents_sdk/sample.py
-python src/autogen/sample.py
+python src/sample.py                        # Lazy assistant with user handoffs
+python src/agent_as_tool_demo.py            # Agent-as-tool pattern in Autogen
+python src/swarm_agents_demo.py             # Azure Swarm demo with rich tooling
+python src/agents_sdk/sample.py             # OpenAI Agents SDK walkthrough
+python src/swarm/sample.py                  # Minimal Swarm routine
 ```
-The scripts in `src/autogen` assume valid API credentials and may contact external services.
+
+Review the source of each script for framework-specific configuration. Demos may contact external services depending on the credentials supplied.
 
 ## Development Conventions
 
-- Keep code **PEP8 compliant** and use clear, descriptive names.
-- Add docstrings to new modules, classes and functions.
-- Where practical, prefer standard library modules over additional dependencies.
-- When adding examples, place them in the appropriate folder under `src/`.
-- Commit messages should be concise but informative (e.g. `Add new autogen arithmetic sample`).
+- Keep code **PEP 8 compliant** and use clear, descriptive names.
+- Add docstrings to new modules, classes, and functions.
+- Prefer standard library modules over additional dependencies when practical.
+- Place new examples alongside similar demos in `src/` (Autogen scripts at the top level, Agents SDK under `agents_sdk/`, Swarm workflows under `swarm/`).
+- Commit messages should be concise but informative (e.g. `Add Azure handoff swarm demo`).
 
 ## Testing
 
@@ -48,5 +53,4 @@ The project currently has no formal tests, but run `pytest` after changes to con
 ```sh
 pytest -q
 ```
-Also run any example scripts you modify to ensure they still execute.
-
+Also execute any example scripts you modify to ensure they still run end-to-end with the expected credentials.
