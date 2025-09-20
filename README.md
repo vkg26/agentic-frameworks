@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository explores modern agentic frameworks with a focus on [Autogen AgentChat](https://microsoft.github.io/autogen/), the OpenAI Agents SDK, and OpenAI's Swarm toolkit. After the recent refactor the examples have been reorganized into self-contained demos that make it easier to compare frameworks, reuse components, and experiment with different coordination patterns.
+This repository explores modern agentic frameworks with a focus on [Autogen AgentChat](https://microsoft.github.io/autogen/), the OpenAI Agents SDK, and OpenAI's Swarm toolkit. After the recent refactor the examples have been reorganized into self-contained demos grouped by framework under `src/autogen/`, `src/agents_sdk/`, and `src/swarm/`, making it easier to compare approaches, reuse components, and experiment with different coordination patterns.
 
 Each demo highlights a specific capability—tool use, human-in-the-loop handoffs, routing, or Azure-hosted agents—so you can quickly try ideas and extend them for your own projects.
 
@@ -65,22 +65,23 @@ Only the variables relevant to the demos you want to run are required. Refer to 
 ```
 agentic-frameworks/
 ├── src/
+│   ├── autogen/
+│   │   ├── agent_as_tool_demo.py
+│   │   ├── arithmetic_agent.py
+│   │   ├── model_context_demo.py
+│   │   ├── parallel_tools_demo.py
+│   │   ├── reasoning_model_selector_demo.py
+│   │   ├── round_robin_team_with_user_proxy_agent.py
+│   │   ├── sample.py
+│   │   ├── sample_azure_client.py
+│   │   ├── selector_group_chat_demo.py
+│   │   └── swarm_agents_demo.py
 │   ├── agents_sdk/
 │   │   └── sample.py
-│   ├── swarm/
-│   │   ├── handoff.py
-│   │   ├── routine.py
-│   │   └── sample.py
-│   ├── agent_as_tool_demo.py
-│   ├── arithmetic_agent.py
-│   ├── model_context_demo.py
-│   ├── parallel_tools_demo.py
-│   ├── reasoning_model_selector_demo.py
-│   ├── round_robin_team_with_user_proxy_agent.py
-│   ├── selector_group_chat_demo.py
-│   ├── sample.py
-│   ├── sample_azure_client.py
-│   └── swarm_agents_demo.py
+│   └── swarm/
+│       ├── handoff.py
+│       ├── routine.py
+│       └── sample.py
 ├── AGENTS.md
 ├── LICENSE
 ├── README.md
@@ -89,16 +90,19 @@ agentic-frameworks/
 
 ## Running the demos
 
-Each script is self-contained—activate your environment, export the required keys, and run whichever example you want to explore.
+Each script is self-contained—activate your environment, export the required keys, and run whichever example you want to explore from the framework-specific subdirectories.
 
 ```sh
-python src/sample.py                            # Lazy assistant that hands off to the user
-python src/agent_as_tool_demo.py                # Showcases agents acting as tools inside Autogen
-python src/parallel_tools_demo.py               # Demonstrates coordinated parallel tool execution
-python src/reasoning_model_selector_demo.py     # Routes tasks to different reasoning models
-python src/swarm_agents_demo.py                 # Azure Swarm demo with rich handoffs and tools
-python src/agents_sdk/sample.py                 # OpenAI Agents SDK example
-python src/swarm/sample.py                      # Minimal Swarm workflow
+python src/autogen/sample.py                            # Lazy assistant that hands off to the user
+python src/autogen/agent_as_tool_demo.py                # Showcases agents acting as tools inside Autogen
+python src/autogen/parallel_tools_demo.py               # Demonstrates coordinated parallel tool execution
+python src/autogen/reasoning_model_selector_demo.py     # Routes tasks to different reasoning models
+python src/autogen/swarm_agents_demo.py                 # Azure Swarm demo with rich handoffs and tools
+python src/autogen/model_context_demo.py                # Explores model context management patterns
+python src/agents_sdk/sample.py                         # OpenAI Agents SDK example
+python src/swarm/sample.py                              # Minimal Swarm workflow
+python src/swarm/handoff.py                             # Swarm handoff with a human-in-the-loop
+python src/swarm/routine.py                             # Routine-driven Swarm collaboration
 ```
 
 Feel free to inspect other scripts in `src/` for additional scenarios such as selector group chats, Azure-hosted clients, and arithmetic-focused agents. When modifying or extending a demo, run it directly to confirm behaviour and iterate quickly.

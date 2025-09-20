@@ -6,7 +6,7 @@ This file contains instructions for assistants working with this repository. Fol
 
 The repository has been reorganized into standalone demos for each framework. Everything lives under `src/`:
 
-- **Autogen AgentChat demos** – Self-contained scripts such as `agent_as_tool_demo.py`, `parallel_tools_demo.py`, `selector_group_chat_demo.py`, and `swarm_agents_demo.py` showcase tool use, routing, and Azure-hosted flows.
+- **autogen/** – Autogen AgentChat demos such as `agent_as_tool_demo.py`, `parallel_tools_demo.py`, `selector_group_chat_demo.py`, `swarm_agents_demo.py`, and other coordination experiments.
 - **agents_sdk/** – Examples using the [openai-agents](https://pypi.org/project/openai-agents/) SDK.
 - **swarm/** – Experiments with OpenAI's Swarm package, including human-in-the-loop handoffs and routines.
 
@@ -30,11 +30,14 @@ The repo does not include automated tests. Sample scripts serve as runnable exam
 After installation you can run any of the sample scripts. Common entry points include:
 
 ```sh
-python src/sample.py                        # Lazy assistant with user handoffs
-python src/agent_as_tool_demo.py            # Agent-as-tool pattern in Autogen
-python src/swarm_agents_demo.py             # Azure Swarm demo with rich tooling
-python src/agents_sdk/sample.py             # OpenAI Agents SDK walkthrough
-python src/swarm/sample.py                  # Minimal Swarm routine
+python src/autogen/sample.py                        # Lazy assistant with user handoffs
+python src/autogen/agent_as_tool_demo.py            # Agent-as-tool pattern in Autogen
+python src/autogen/swarm_agents_demo.py             # Azure Swarm demo with rich tooling
+python src/autogen/reasoning_model_selector_demo.py # Routes tasks to different reasoning models
+python src/agents_sdk/sample.py                     # OpenAI Agents SDK walkthrough
+python src/swarm/sample.py                          # Minimal Swarm routine
+python src/swarm/handoff.py                         # Human handoff Swarm scenario
+python src/swarm/routine.py                         # Routine-based Swarm workflow
 ```
 
 Review the source of each script for framework-specific configuration. Demos may contact external services depending on the credentials supplied.
@@ -44,7 +47,7 @@ Review the source of each script for framework-specific configuration. Demos may
 - Keep code **PEP 8 compliant** and use clear, descriptive names.
 - Add docstrings to new modules, classes, and functions.
 - Prefer standard library modules over additional dependencies when practical.
-- Place new examples alongside similar demos in `src/` (Autogen scripts at the top level, Agents SDK under `agents_sdk/`, Swarm workflows under `swarm/`).
+- Place new examples alongside similar demos in `src/` (Autogen scripts under `autogen/`, Agents SDK under `agents_sdk/`, Swarm workflows under `swarm/`).
 - Commit messages should be concise but informative (e.g. `Add Azure handoff swarm demo`).
 
 ## Testing
